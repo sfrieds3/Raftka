@@ -1,0 +1,19 @@
+# scala
+*.class
+*.log
+
+# sbt
+dist/*
+target/
+project/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+
+# ensime
+.ensime_cache/
+.ensime
