@@ -1,4 +1,4 @@
-package example
+package client
 
 import raftka._
 
@@ -7,7 +7,7 @@ import com.typesafe.config.ConfigFactory
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
-class TestClient extends Actor with RaftkaClient {
+class ExampleTestClient extends Actor with RaftkaClient {
   //var clusterMembers: ListBuffer[ActorRef] = members
   var clusterMembers = ListBuffer[ActorRef]()
 

@@ -1,6 +1,6 @@
 package raftka
 
-import example._
+import client._
 
 import akka.actor.{ Actor, ActorRef, ActorSystem, FSM, Props }
 import com.typesafe.config.ConfigFactory
@@ -289,14 +289,16 @@ class RaftkaActor extends FSM[RaftkaState, RaftkaMessages] {
 
 object Raftka extends App {
   final val CLIENTCLASS: String = ConfigFactory.load.getString("client-class")
+  final val CLIENTPACKAGE: String = ConfigFactory.load.getString("client-package")
   final val numReplicas: Int = ConfigFactory.load.getInt("num-replicas")
 
   var replicaActors = ListBuffer[ActorRef]()
 
-  println("Starting Raftka")
+  println("Starting Raftka with client class: " + CLIENTCLASS)
 
   val system = ActorSystem("Raftka")
-  val clientActor = system.actorOf(Props[TestClient], name = "clientActor")
+  val clientClass: String = CLIENTPACKAGE + "." + CLIENTCLASS
+  val clientActor = system.actorOf(Props(Class.forName(clientClass)), name = "clientActor")
 
   // create replicas
   for (i <- 1 to numReplicas) {
@@ -304,7 +306,7 @@ object Raftka extends App {
     replicaActors += replicaActor
   }
 
-  // send list of all replicas to each replica
+  // mend list of all replicas to each replica
   for (i <- 1 to numReplicas) {
     replicaActors(i-1) ! RaftkaMembers(replicaActors)
   }
