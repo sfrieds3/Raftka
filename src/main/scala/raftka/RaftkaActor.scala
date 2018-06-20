@@ -290,7 +290,7 @@ class RaftkaActor extends FSM[RaftkaState, RaftkaMessages] {
 object Raftka extends App {
   final val CLIENTCLASS: String = ConfigFactory.load.getString("client-class")
   final val CLIENTPACKAGE: String = ConfigFactory.load.getString("client-package")
-  final val numReplicas: Int = ConfigFactory.load.getInt("num-replicas")
+  final val NUMREPLICAS: Int = ConfigFactory.load.getInt("num-replicas")
 
   var replicaActors = ListBuffer[ActorRef]()
 
@@ -301,13 +301,13 @@ object Raftka extends App {
   val clientActor = system.actorOf(Props(Class.forName(clientClass)), name = "clientActor")
 
   // create replicas
-  for (i <- 1 to numReplicas) {
+  for (i <- 1 to NUMREPLICAS) {
     val replicaActor = system.actorOf(Props[RaftkaActor])
     replicaActors += replicaActor
   }
 
   // mend list of all replicas to each replica
-  for (i <- 1 to numReplicas) {
+  for (i <- 1 to NUMREPLICAS) {
     replicaActors(i-1) ! RaftkaMembers(replicaActors)
   }
 
