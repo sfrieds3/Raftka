@@ -12,13 +12,13 @@ class RaftkaActor extends FSM[RaftkaState, RaftkaMessages] {
   final val TEST: Boolean = ConfigFactory.load.getBoolean("TEST")
   final val DEBUG: Boolean = ConfigFactory.load.getBoolean("DEBUG")
 
-  final val numReplicas: Int = ConfigFactory.load.getInt("num-replicas")
-  final val defaultHeartbeatInterval: Int = ConfigFactory.load.getInt(
+  final val NUMREPLICAS: Int = ConfigFactory.load.getInt("num-replicas")
+  final val DEFAULTHEARTBEATINTERVAL: Int = ConfigFactory.load.getInt(
       "default-heartbeat-interval-ms")
 
   var logEntries = new RaftkaStorage
   var memberList = ListBuffer[RaftkaGroupMember]()
-  var numReplicasForQuorum: Int = (numReplicas + 1) / 2 // +1 to include self
+  var numReplicasForQuorum: Int = (NUMREPLICAS + 1) / 2 // +1 to include self
   var currentTerm: Int = 0 // current term
   var lastLogIndex: Int = 0 // last log index that has been committed
   var lastLogTerm: Int = 0
@@ -133,7 +133,7 @@ class RaftkaActor extends FSM[RaftkaState, RaftkaMessages] {
       stay
   }
 
-  when(Leader, stateTimeout = Duration(defaultHeartbeatInterval, MILLISECONDS)) {
+  when(Leader, stateTimeout = Duration(DEFAULTHEARTBEATINTERVAL, MILLISECONDS)) {
 
     case Event(StateTimeout, _) =>
       // randomly time out leader -- ***TESTING PURPOSES ONLY***

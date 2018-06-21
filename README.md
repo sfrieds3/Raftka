@@ -22,3 +22,4 @@ RaftkaClient implementation, but can be Any).
 ## Usage example
 
 // TODO: provide example of usage
+// TODO: write tests
