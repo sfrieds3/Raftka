@@ -306,7 +306,7 @@ object Raftka extends App {
     replicaActors += replicaActor
   }
 
-  // mend list of all replicas to each replica
+  // send list of all replicas to each replica
   for (i <- 1 to NUMREPLICAS) {
     replicaActors(i-1) ! RaftkaMembers(replicaActors)
   }
