@@ -1,7 +1,5 @@
 # Raftka
 
-**Not intended for production use**
-
 This is an implementation of Raft in Scala using Akka (that is *very much* a work in
 progress). I named it Raftka, because I thought it should have a cool name.
 
